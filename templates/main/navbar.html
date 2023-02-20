@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>myrep</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %} ">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'assets/css/Login-Form-Basic-icons.css' %} ">
+</head>
+
+<body style="backdrop-filter: blur(0px);-webkit-backdrop-filter: blur(0px);">
+    <nav class="navbar navbar-light navbar-expand-md py-3" style="backdrop-filter: opacity(1) blur(0px);-webkit-backdrop-filter: opacity(1) blur(0px);background: linear-gradient(-151deg, #fc2366 -9%, rgb(249,214,22) 56%, white 133%), #1400ff;font-family: Allerta, sans-serif;">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="{% url 'home-view' %}"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-music-note">
+                        <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"></path>
+                        <path fill-rule="evenodd" d="M9 3v10H8V3h1z"></path>
+                        <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"></path>
+                    </svg></span><span style="font-weight: bold;">MyRep</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1" style="backdrop-filter: blur(0px);-webkit-backdrop-filter: blur(0px);">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active ms-2 me-2" href="#" style="color: rgba(0, 0, 0, 0.9);font-weight: bold;">Add a Tune</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'tunes-list-view' request.user.username %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'login-view' %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="#" style="color: rgba(0,0,0,0.9);font-weight: bold;">Third Item</a></li>
+                </ul>
+                {% if request.user.is_authenticated %}
+                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center navbar-text me-2 bs-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person-fill">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path></svg></span>
+                    <a class="btn btn-primary btn-sm me-2" href={% url 'logout-view' %} role="button">Log out</a>
+                {% else %}
+                    <a class="btn btn-primary btn-sm me-2" href={% url 'login-view' %} role="button">Log in</a><button class="btn btn-primary btn-sm" type="button">Sign up</button>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %} "></script>
+</body>
+
+</html>

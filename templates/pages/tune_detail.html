@@ -1,0 +1,18 @@
+{% extends 'main/main.html' %}
+
+{% block title %} Tunes {% endblock title %}
+
+{% block content %}
+
+
+    <div> 
+        <h1> {{usertune.tune.name}}</h1>
+        <p>Composer: {{usertune.tune.composer}}</p>
+        <p>Can play on piano: {{usertune.playonpiano}}</p>
+        <p>Can play on jam-session: {{usertune.playonjamsession}}</p>
+        <p>Can play on stage: {{usertune.playonstage}}</p>
+        <p>Sheet : {{usertune.sheet}} </p>
+    </div>
+
+
+{% endblock content %}
