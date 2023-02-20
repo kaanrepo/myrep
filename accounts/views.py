@@ -14,9 +14,10 @@ def login_logout_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request,user)
-            next = request.POST.get('next')
+            next = request.GET.get('next')
             if next:
-                return redirect(f"{next}/")
+                print(next)
+                return redirect(f"{next}")
             return redirect('home-view')
     context = {
     }
@@ -25,7 +26,10 @@ def login_logout_view(request):
 def register_user_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        user = form.save(commit=False)
+        password = form.cleaned_data['password1']
+        user.set_password(password)
+        user.save()
 
     context = {
         'form':form

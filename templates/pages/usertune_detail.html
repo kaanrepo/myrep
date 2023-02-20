@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "main/main.html" %}
+
+{% load static %}
+
+{% block title %}MyRep{% endblock title %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %} ">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col d-flex d-xxl-flex justify-content-center align-items-center justify-content-xxl-center align-items-xxl-center">
+                <div>
+                    <h1>{{usertune.tune.name|title}}</h1>
+                    <p class="text-end">{{usertune.tune.key}} - {{usertune.tune.composer}} </p>
+                </div>
+                <div><a class="btn btn-primary btn-sm" role="button" style="margin-right: 3px;margin-left: 59px;">Edit</a></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        {% if usertune.notes %}
+                        <p>Notes:{{usertune.notes}}</p>
+                        {% else %}
+                        <p>You can add a note in Edit.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <p>I can play this on piano:</p>
+                    </div>
+                    <div class="col">{% if usertune.playonpiano %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <p>I can play this on a jam-session:</p>
+                    </div>
+                    <div class="col">{% if usertune.playonjamsession %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <p>I can play this on stage:</p>
+                    </div>
+                    <div class="col">{% if usertune.playonstage %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</div>
+                </div>
+                {% if usertune.sheet %}
+                <div class="row">
+                    <div class="col-8">
+                        <p>Sheets: {{usertune.sheet}}</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row">
+                    <div class="col-8">
+                        <p>Add a sheet in the Edit.</p>
+                    </div>
+                </div>                
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %} "></script>
+</body>
+
+</html>
+
+{% endblock content %}

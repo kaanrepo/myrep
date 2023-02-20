@@ -20,9 +20,9 @@
                     </svg></span><span style="font-weight: bold;">MyRep</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1" style="backdrop-filter: blur(0px);-webkit-backdrop-filter: blur(0px);">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link active ms-2 me-2" href="#" style="color: rgba(0, 0, 0, 0.9);font-weight: bold;">Add a Tune</a></li>
+                    <li class="nav-item"><a class="nav-link active ms-2 me-2" href="{% url 'tunes-create-view' %}" style="color: rgba(0, 0, 0, 0.9);font-weight: bold;">Add a Tune</a></li>
                     {% if request.user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'tunes-list-view' request.user.username %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
+                        <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'tunes-list-view' request.user.id %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'login-view' %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
                     {% endif %}
@@ -34,7 +34,7 @@
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path></svg></span>
                     <a class="btn btn-primary btn-sm me-2" href={% url 'logout-view' %} role="button">Log out</a>
                 {% else %}
-                    <a class="btn btn-primary btn-sm me-2" href={% url 'login-view' %} role="button">Log in</a><button class="btn btn-primary btn-sm" type="button">Sign up</button>
+                    <a class="btn btn-primary btn-sm me-2" href={% url 'login-view' %} role="button">Log in</a><a class="btn btn-primary btn-sm me-2" href={% url 'user-register-view' %} role="button">Sign up</a>
                 {% endif %}
             </div>
         </div>

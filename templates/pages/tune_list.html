@@ -8,7 +8,7 @@
     {% for usertune in qs %}
 
             <div> 
-                <li><p><a href={% url 'tunes-detail-view' usertune.user.username usertune.id %}>{{usertune.tune.name}}</a></p></li>
+                <li><p><a href={% url 'tunes-detail-view' usertune.user.id usertune.id %}>{{usertune.tune.name}}</a></p></li>
             </div>
 
 

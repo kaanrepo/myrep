@@ -34,8 +34,9 @@ class Tune(models.Model):
         return self.name
 
 class UserTune(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tune = models.ForeignKey(Tune, on_delete=models.CASCADE)
+    notes = models.TextField(max_length=400,null=True,blank=True)
     playonpiano = models.BooleanField(default=False)
     playonjamsession = models.BooleanField(default=False)
     playonstage = models.BooleanField(default=False)

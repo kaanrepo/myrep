@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-yice%$498e^57!q9ya5=p_i-$7f6)bnvkqlws!l@ky!%h4(der
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -131,3 +131,5 @@ MEDIA_ROOT = BASE_DIR / 'staticfiles-cdn' / 'uploads'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+LOGIN_URL = '/login'
