@@ -1,0 +1,23 @@
+{% for usertune in qs %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p><a class='line' href={% url 'tunes-detail-view' usertune.user.id usertune.id %}>{{usertune.tune.name|title}}</a></p>
+        </div>
+        <div class="col">
+            <p class="text-start">{{usertune.tune.composer|title}}</p>
+        </div>
+        <div class="col">
+            <p class="text-start">{{usertune.tune.genre}}</p>
+        </div>
+        <div class="col">
+            <p class="text-start">{{usertune.tune.key}}</p>
+        </div>
+        <div class="col">
+            <p class="text-center">{{usertune.user.username}}</p>
+        </div>
+    </div>
+</div>
+
+
+{% endfor %}

@@ -1,0 +1,7 @@
+
+{% load crispy_forms_tags %}
+{% if search_form %}
+<form hx-get='{{hx_url}}'  hx-swap='innerHTML' hx-target='#search-results'>
+    {% crispy search_form %}
+</form>
+{% endif %}

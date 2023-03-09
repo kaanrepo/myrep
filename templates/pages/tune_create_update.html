@@ -1,15 +1,16 @@
 {% extends 'main/main.html' %}
+{% load crispy_forms_tags %}
+
 
 {% block title %}Add a tune{% endblock title %}
 
 {% block content %}
-
-<form method='POST'>
+<div style='margin-right: 10%; margin-left: 10%'>
+<form method='POST' enctype="multipart/form-data">
     {% csrf_token %}
-    {{form1.as_p}}
+    {% crispy form1 %}
     <hr>
-    {{form2.as_p}}
-    <button type='submit'>Submit</button>
+    {% crispy form2 %}
 </form>
-
+</div>
 {% endblock content %}

@@ -3,16 +3,69 @@
 {% block title %} Tunes {% endblock title %}
 
 {% block content %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta&amp;display=swap">
+</head>
 
-<ul>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p>Tune</p>
+        </div>
+        <div class="col">
+            <p class="text-start">Composer</p>
+        </div>
+        <div class="col">
+            <p class="text-start">Genre</p>
+        </div>
+        <div class="col">
+            <p class="text-start">Key</p>
+        </div>
+        <hr>
+    </div>
+</div>
+
+
+<div id='search-results'>
+    
     {% for usertune in qs %}
-
-            <div> 
-                <li><p><a href={% url 'tunes-detail-view' usertune.user.id usertune.id %}>{{usertune.tune.name}}</a></p></li>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p><a class='line' href={% url 'tunes-detail-view' usertune.user.id usertune.id %}>{{usertune.tune.name|title}}</a></p>
             </div>
-
-
+            <div class="col">
+                <p class="text-start">{{usertune.tune.composer|title}}</p>
+            </div>
+            <div class="col">
+                <p class="text-start">{{usertune.tune.genre}}</p>
+            </div>
+            <div class="col">
+                <p class="text-start">{{usertune.tune.key}}</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    
     {% endfor %}
-</ul>
+    
+    
+
+
+</div>
+
+
+<style>
+    .line{
+        text-decoration:none;
+        color: #010001;
+    }
+</style>
+
+
 
 {% endblock content %}
+

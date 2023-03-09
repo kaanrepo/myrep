@@ -2,6 +2,9 @@
 {% load static %}
 <html lang="en">
 
+
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -9,38 +12,42 @@
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %} ">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta&amp;display=swap">
     <link rel="stylesheet" href="{% static 'assets/css/Login-Form-Basic-icons.css' %} ">
+    <script src="{% static 'htmx.min.js' %}"></script>
 </head>
 
 {% include 'main/navbar.html' %}
 
 <body style="font-family: Allerta, sans-serif;">
     <header></header>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1 style="font-weight: bold;">MyRep</h1>
-                <p style="font-weight: bold;">Enjoy Storing all your sheets in one place and take them anywhere.</p>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-xl-2">
-                <p>search stuff</p>
-            </div>
-            <div class="col-md-4 col-xl-8">
-                {% block content %}
-                
-                {% endblock content %}
-            </div>
-            <div class="col-md-4 col-xl-2">
-                <p>Right stuff</p>
+
+    {% block home-content %}
+    
+    {% endblock home-content %}
+
+    <div style="padding-top: 0px;margin-top: 10px;margin-bottom: 50px;">
+        <div class="container" style="padding-top: 0px;margin-top: 30px;">
+            <div class="row">
+                <div class="col-md-3 col-xl-2">
+                    {% include 'main/search_form.html' %}
+                </div>
+                <div class="col-md-6 col-xl-8">
+                    {% block content %}
+                    
+                    {% endblock content %}
+                </div>
+                <div class="col-md-3 col-xl-2">
+                    <p>Right stuff</p>
+                </div>
             </div>
         </div>
     </div>
     <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %} "></script>
 
+
     {% include 'main/footer.html' %}
 </body>
 
 </html>
+
+
+

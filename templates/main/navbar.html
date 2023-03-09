@@ -2,14 +2,7 @@
 {% load static %}
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>myrep</title>
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %} ">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta&amp;display=swap">
-    <link rel="stylesheet" href="{% static 'assets/css/Login-Form-Basic-icons.css' %} ">
-</head>
+
 
 <body style="backdrop-filter: blur(0px);-webkit-backdrop-filter: blur(0px);">
     <nav class="navbar navbar-light navbar-expand-md py-3" style="backdrop-filter: opacity(1) blur(0px);-webkit-backdrop-filter: opacity(1) blur(0px);background: linear-gradient(-151deg, #fc2366 -9%, rgb(249,214,22) 56%, white 133%), #1400ff;font-family: Allerta, sans-serif;">
@@ -20,12 +13,13 @@
                     </svg></span><span style="font-weight: bold;">MyRep</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1" style="backdrop-filter: blur(0px);-webkit-backdrop-filter: blur(0px);">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link active ms-2 me-2" href="{% url 'tunes-create-view' %}" style="color: rgba(0, 0, 0, 0.9);font-weight: bold;">Add a Tune</a></li>
+
                     {% if request.user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'tunes-list-view' request.user.id %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'login-view' %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
                     {% endif %}
+                    <li class="nav-item"><a class="nav-link active ms-2 me-2" href="{% url 'tunes-create-view' %}" style="color: rgba(0, 0, 0, 0.9);font-weight: bold;">Add a Tune</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" style="color: rgba(0,0,0,0.9);font-weight: bold;">Third Item</a></li>
                 </ul>
                 {% if request.user.is_authenticated %}

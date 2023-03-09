@@ -23,7 +23,9 @@
                     <h1>{{usertune.tune.name|title}}</h1>
                     <p class="text-end">{{usertune.tune.key}} - {{usertune.tune.composer}} </p>
                 </div>
-                <div><a class="btn btn-primary btn-sm" role="button" style="margin-right: 3px;margin-left: 59px;">Edit</a></div>
+                {% if request.user == usertune.user %}
+                <div><a class="btn btn-primary btn-sm" href={% url 'tunes-update-view' request.user.id usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Edit</a></div>
+                {% endif %}
             </div>
         </div>
         <div class="row">
@@ -58,7 +60,7 @@
                 {% if usertune.sheet %}
                 <div class="row">
                     <div class="col-8">
-                        <p>Sheets: {{usertune.sheet}}</p>
+                        <p>Sheets: <a href={% url 'usertune-sheet-view' usertune.user.id usertune.id  %} target='blank'>  {{usertune.filename}}</a></p>
                     </div>
                 </div>
                 {% else %}
