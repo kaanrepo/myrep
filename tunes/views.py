@@ -10,6 +10,12 @@ from django.http import FileResponse, HttpResponse
 # Create your views here.
 
 def home_view(request):
+    context = {
+
+    }
+    return render(request, 'pages/home.html', context)
+
+def public_usertune_view(request):
     form = HomeSearchForm()
     query = request.GET.get('q')
     qs = UserTune.objects.all().filter(public=True)
@@ -22,8 +28,8 @@ def home_view(request):
     }
     print(request.GET)
     if request.htmx:
-        return render(request, 'partials/home.html', context)
-    return render(request, 'pages/home.html', context)
+        return render(request, 'partials/public_usertune.html', context)
+    return render(request, 'pages/public_usertune.html', context)
 
 
 

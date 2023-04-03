@@ -1,5 +1,6 @@
 from pathlib import Path
 from django.core.exceptions import ValidationError
+#import magic
 import magic
 
 def validate_file_extension(value):
@@ -15,10 +16,13 @@ def validate_file_extension(data):
     import magic
     from django.core.exceptions import ValidationError
 
+    mime = magic.Magic(mime=True)
+    file_type = mime.from_buffer(data.read())
+
     extension = os.path.splitext(data.name)[1].lower()
-    content_type = magic.from_buffer(data.read(1024), mime=True)
+    #content_type = magic.from_buffer(data.read(1024), mime=True)
 
     if extension != '.pdf':
         raise ValidationError('Unsupported file extension.')
-    if content_type != 'application/pdf':
+    if file_type != 'application/pdf':
         raise ValidationError('DONT TRY TO FOOL ME.')

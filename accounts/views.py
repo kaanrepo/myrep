@@ -31,6 +31,9 @@ def register_user_view(request):
         user.set_password(password)
         user.save()
 
+        login(request,user)
+        return redirect('home-view')
+
     context = {
         'form':form
     }

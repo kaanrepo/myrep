@@ -1,7 +1,7 @@
 
 {% load crispy_forms_tags %}
 {% if search_form %}
-<form hx-get='{{hx_url}}'  hx-swap='innerHTML' hx-target='#search-results'>
+<form hx-get='{{hx_url}}'  hx-swap='innerHTML' hx-target='#search-results' hx-trigger='keyup, change , submit'>
     {% crispy search_form %}
 </form>
 {% endif %}

@@ -1,0 +1,84 @@
+{% extends 'main/main.html' %}
+
+{% block title %} Home {% endblock title %}
+
+
+{% block home-content %}
+<div class="container" >
+    <div class="row" style='text-align:center'>
+        <div class="col">
+            <h1 style="font-weight: bold;">MyRep</h1>
+            <p style="font-weight: bold;">Store all your sheets in one place and take them anywhere.</p>
+        </div>
+    </div>
+</div>
+{% endblock home-content %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p>Tune</p>
+        </div>
+        <div class="col">
+            <p class="text-start">Composer</p>
+        </div>
+        <div class="col">
+            <p class="text-start">Genre</p>
+        </div>
+        <div class="col">
+            <p class="text-start">Key</p>
+        </div>
+        <div class="col">
+            <p class="text-center">User</p>
+        </div>
+        <hr>
+    </div>
+</div>
+<div id='search-results'>
+    
+    {% for usertune in qs %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p><a class='line' href={% url 'tunes-detail-view' usertune.user.id usertune.id %}>{{usertune.tune.name|title}}</a></p>
+            </div>
+            <div class="col">
+                <p class="text-start">{{usertune.tune.composer|title}}</p>
+            </div>
+            <div class="col">
+                <p class="text-start">{{usertune.tune.genre}}</p>
+            </div>
+            <div class="col">
+                <p class="text-start">{{usertune.tune.key}}</p>
+            </div>
+            <div class="col">
+                <p class="text-center">{{usertune.user.username}}</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    {% endfor %}
+    
+    
+
+
+</div>
+
+    <style>
+        .line{
+            text-decoration:none;
+            color: #010001;
+        }
+    </style>
+
+
+
+
+
+{% endblock content %}

@@ -1,84 +1,72 @@
 {% extends 'main/main.html' %}
+{% load static %}
 
-{% block title %} Home {% endblock title %}
-
-
-{% block home-content %}
-<div class="container" >
-    <div class="row" style='text-align:center'>
-        <div class="col">
-            <h1 style="font-weight: bold;">MyRep</h1>
-            <p style="font-weight: bold;">Store all your sheets in one place and take them anywhere.</p>
-        </div>
-    </div>
-</div>
-{% endblock home-content %}
-
+{% block title %}MyRep{% endblock title %}
 
 {% block content %}
 
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <p>Tune</p>
+<body>
+    <div class="container py-4 py-xl-5">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2>MyRep</h2>
+                <p>This will be a generic description.</p>
+            </div>
         </div>
-        <div class="col">
-            <p class="text-start">Composer</p>
+        <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+            <div class="col">
+                <a href={% url 'tunes-create-view' %}>
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Add a Tune!</h4>
+                        <p class="card-text">Add your sheets and see them anywhere!<br><br></p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="col">
+                <div class="card">
+                    {% if request.user.is_authenticated %}
+                    <a href={% url 'tunes-list-view'  request.user.id %}>
+                        <div class="card-body p-4">
+                            <h4 class="card-title">Check your Songs!</h4>
+                            <p class="card-text">Check what you've collected so far.</p>
+                        </div>
+                    </a>
+                    {% else %}
+                    <a href={% url 'login-view' %}>
+                        <div class="card-body p-4">
+                            <h4 class="card-title">Check your Songs!</h4>
+                            <p class="card-text">Check what you've collected so far.</p>
+                        </div>
+                    </a>                    
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <a href={% url 'public-usertune-view' %}>
+                        <div class="card-body p-4">
+                            <h4 class="card-title">Check the Library!</h4>
+                            <p class="card-text">See what other users has been so busy with</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="col">
-            <p class="text-start">Genre</p>
-        </div>
-        <div class="col">
-            <p class="text-start">Key</p>
-        </div>
-        <div class="col">
-            <p class="text-center">User</p>
-        </div>
-        <hr>
     </div>
-</div>
-<div id='search-results'>
-    
-    {% for usertune in qs %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p><a class='line' href={% url 'tunes-detail-view' usertune.user.id usertune.id %}>{{usertune.tune.name|title}}</a></p>
-            </div>
-            <div class="col">
-                <p class="text-start">{{usertune.tune.composer|title}}</p>
-            </div>
-            <div class="col">
-                <p class="text-start">{{usertune.tune.genre}}</p>
-            </div>
-            <div class="col">
-                <p class="text-start">{{usertune.tune.key}}</p>
-            </div>
-            <div class="col">
-                <p class="text-center">{{usertune.user.username}}</p>
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    {% endfor %}
-    
-    
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
 
+</html>
 
-</div>
+<style>
 
-    <style>
-        .line{
-            text-decoration:none;
-            color: #010001;
-        }
-    </style>
+a{
+    color:inherit;
+    text-decoration:none
+}
 
-
-
-
+</style>
 
 {% endblock content %}
