@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import UserCreationForm
 from django.contrib.auth import get_user_model, login, authenticate, logout
+from tunes.models import UserTune, UserTuneList
 # Create your views here.
 
 def login_logout_view(request):
@@ -36,5 +38,33 @@ def register_user_view(request):
 
     context = {
         'form':form
+    }
+    return render(request, 'accounts/register.html', context)
+
+def user_profile_view(request, pk):
+    User = get_user_model()
+    user = User.objects.get(id=pk)
+    qs = UserTune.objects.filter(user=user)
+    qs2 = UserTuneList.objects.filter(user=user)
+
+    
+    context = {
+        'user' : user,
+        'qs' : qs,
+        'qs2' : qs2
+    }
+    return render(request, 'accounts/profile.html', context)
+
+@login_required
+def user_profile_update_view(request, pk):
+    User = get_user_model()
+    user = User.objects.get(id=pk)
+    form = UserCreationForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.save()
+        return redirect('profile-view', user.id)
+    
+    context = {
+        'form': form
     }
     return render(request, 'accounts/register.html', context)

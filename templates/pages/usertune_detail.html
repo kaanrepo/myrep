@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Untitled</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %} ">
+    <link rel="stylesheet" href="{% static 'assets/fonts/material-icons.min.css' %} ">
 </head>
 
 <body>
@@ -25,6 +26,7 @@
                 </div>
                 {% if request.user == usertune.user %}
                 <div><a class="btn btn-primary btn-sm" href={% url 'tunes-update-view' request.user.id usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Edit</a></div>
+                <div><a class="btn btn-primary btn-sm" href={% url 'delete-objects-view' 'usertune' usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Delete</a></div>
                 {% endif %}
             </div>
         </div>
@@ -43,19 +45,19 @@
                     <div class="col-8">
                         <p>I can play this on piano:</p>
                     </div>
-                    <div class="col">{% if usertune.playonpiano %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</div>
+                    <div class="col-1">{% if usertune.playonpiano %}<i class="material-icons">check</i>{% else %}<i class="material-icons">close</i>{% endif %}</div>
                 </div>
                 <div class="row">
                     <div class="col-8">
                         <p>I can play this on a jam-session:</p>
                     </div>
-                    <div class="col">{% if usertune.playonjamsession %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</div>
+                    <div class="col">{% if usertune.playonjamsession %}<i class="material-icons">check</i>{% else %}<i class="material-icons">close</i>{% endif %}</div>
                 </div>
                 <div class="row">
                     <div class="col-8">
                         <p>I can play this on stage:</p>
                     </div>
-                    <div class="col">{% if usertune.playonstage %}YES<i class="fas fa-check"></i>{% else %}NO<i class="fas fa-times"></i>{% endif %}</div>
+                    <div class="col">{% if usertune.playonstage %}<i class="material-icons">check</i>{% else %}<i class="material-icons">close</i>{% endif %}</div>
                 </div>
                 {% if usertune.sheet %}
                 <div class="row">
@@ -70,6 +72,15 @@
                     </div>
                 </div>                
                 {% endif %}
+                {% if usertune.lyrics %}
+                <div class="row">
+                    <div class="col-8">
+                        <p style='word-wrap: break-word;'>Lyrics: {{usertune.lyrics|linebreaks}}</a></p>
+                    </div>
+                </div>
+                {% endif %}
+
+
             </div>
         </div>
     </div>

@@ -1,0 +1,14 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+
+Do you really want to delete {{obj|title}}?
+
+<form method='POST'>
+    {% csrf_token %}
+    <button type='submit'>Submit</button>
+</form>
+
+
+
+{% endblock content %}

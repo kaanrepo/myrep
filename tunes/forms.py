@@ -1,8 +1,9 @@
 from django import forms
-from .models import Tune, UserTune
+from .models import Tune, UserTune, UserTuneList
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Field, Column
 from crispy_forms.bootstrap import FieldWithButtons
+from django.db.models import Q
 
 
 class TuneForm(forms.ModelForm):
@@ -24,7 +25,7 @@ class TuneForm(forms.ModelForm):
 class UserTuneForm(forms.ModelForm):
     class Meta:
         model = UserTune
-        fields = ('notes', 'playonpiano', 'playonjamsession', 'playonstage', 'havesheet', 'sheet','public')
+        fields = ('notes', 'playonpiano', 'playonjamsession', 'playonstage', 'havesheet', 'sheet','public','lyrics')
         labels = {
         "playonpiano": "I can play this on piano",
         'playonjamsession': 'I can play this on a jam-sesion',
@@ -91,3 +92,25 @@ class HomeSearchForm(forms.Form):
                 FieldWithButtons(
                     Field('q',), Submit('', 'Search')),
             )
+        
+class UserTuneListForm(forms.ModelForm):
+    class Meta:
+        model = UserTuneList
+        fields = ('name', 'description', 'tunes')
+ 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['tunes'].queryset = UserTune.objects.filter(Q(user=user) | Q(public=True))
+
+        #crispy-form helper
+        self.helper = FormHelper()
+        self.helper.form_tag = True
+        self.helper.disable_csrf = False
+        self.helper.layout = Layout(
+            'name',
+            'description',
+            'tunes',
+            Submit('submit','Save')
+        )
+

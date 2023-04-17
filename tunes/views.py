@@ -2,9 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from .models import *
-from .forms import UserTuneForm, TuneForm, UserTuneSearchForm, HomeSearchForm
+from .forms import UserTuneForm, TuneForm, UserTuneSearchForm, HomeSearchForm, UserTuneListForm
 from django.contrib.staticfiles import finders
 from django.http import FileResponse, HttpResponse
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -68,7 +69,7 @@ def usertune_list_view(request, pk):
     context = {
         'qs' : qs,
         'search_form' : search_form,
-        'hx_url': hx_url
+        'hx_url': hx_url,
     }
     if user != request.user:
         return redirect('home-view')
@@ -113,7 +114,6 @@ def usertune_list_hx_view(request, pk):
     if user != request.user:
         return redirect('home-view')
     
-    print(request.GET.get('playonpiano'))
     return render(request, 'partials/usertune_list.html', context)
 
 def usertune_detail_view(request, pk, id):
@@ -188,4 +188,81 @@ def usertune_pdf_view(request, pk, id):
     return response
 
 
+@login_required
+def usertune_lists_view(request, pk):
+    User = get_user_model()
+    user = User.objects.get(id=pk)
+    lists = UserTuneList.objects.filter(user=user)
+
+    context = {
+        'lists' : lists
+    }
+
+    return render(request, 'pages/usertune_lists.html', context)
+
+@login_required
+def usertune_lists_detail_view(request, pk, id):
+    User = get_user_model()
+    list = UserTuneList.objects.get(id=id)
+
+    context = {
+        'list' : list
+    }
+
+    return render(request, 'pages/usertune_lists_detail.html', context)
+
+@login_required
+def usertune_list_create_view(request):
+    form = UserTuneListForm(request.POST or None, user=request.user)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.user = request.user
+        instance.save()
+        form.save_m2m()
+        return redirect('usertune-lists-view', request.user.id)
+    context = {
+        'form' : form
+    }
+    return render(request, 'pages/usertune_lists_create_update.html', context)
+
+@login_required
+def usertune_list_update_view(request, pk, id):
+    User = get_user_model()
+    user = User.objects.get(id=pk)
+    instance = UserTuneList.objects.get(id=id)
+    form = UserTuneListForm(request.POST or None, user=user, instance=instance)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.user = request.user
+        instance.save()
+        form.save_m2m()
+        return redirect('usertune-lists-view', request.user.id)
+    context = {
+        'form' : form
+    }
+    return render(request, 'pages/usertune_lists_create_update.html', context)
+
+
+
+def delete_objects_view(request, model, **kwargs):
+    MODELS = {
+        'tune' : Tune,
+        'usertune' : UserTune,
+        'list' : UserTuneList
+    }
+    model_class = MODELS.get(model)
+    if model_class is None:
+        pass
+    print(model_class)
+    obj = get_object_or_404(model_class, **kwargs)
+
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('home-view')
+    
+    context = {
+        'obj' : obj
+    }
+
+    return render(request, 'pages/delete_confirmation.html', context)
 

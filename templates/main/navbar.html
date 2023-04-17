@@ -20,12 +20,17 @@
                         <li class="nav-item"><a class="nav-link ms-2 me-2" href="{% url 'login-view' %}" style="color: rgba(0,0,0,0.9);font-weight: bold;">My Tunes</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link active ms-2 me-2" href="{% url 'tunes-create-view' %}" style="color: rgba(0, 0, 0, 0.9);font-weight: bold;">Add a Tune</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" style="color: rgba(0,0,0,0.9);font-weight: bold;">Third Item</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href={% url 'usertune-lists-view' request.user.id %} style="color: rgba(0,0,0,0.9);font-weight: bold;">My Lists</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href={% url 'login-view' %} style="color: rgba(0,0,0,0.9);font-weight: bold;">My Lists</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href={% url 'list-create-view' %} style="color: rgba(0,0,0,0.9);font-weight: bold;">Add a List</a></li>
                 </ul>
                 {% if request.user.is_authenticated %}
-                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center navbar-text me-2 bs-icon">
+                <a href={% url 'profile-view' request.user.id %}><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center navbar-text me-2 bs-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person-fill">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path></svg></span>
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path></svg></span></a>
                     <a class="btn btn-primary btn-sm me-2" href={% url 'logout-view' %} role="button">Log out</a>
                 {% else %}
                     <a class="btn btn-primary btn-sm me-2" href={% url 'login-view' %} role="button">Log in</a><a class="btn btn-primary btn-sm me-2" href={% url 'user-register-view' %} role="button">Sign up</a>

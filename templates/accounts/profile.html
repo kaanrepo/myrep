@@ -1,0 +1,20 @@
+{% extends 'main/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{{user}}
+
+{% if request.user == user %}
+<a class="btn btn-primary btn-sm" href={% url 'profile-update-view' user.id %} role="button" style="margin-right: 3px;margin-left: 50px;">Edit</a>
+{% endif %}
+
+<br>
+Total Tunes: {{qs.count}}
+<br>
+Total Lists: {{qs2.count}}
+
+
+
+{% endblock content %}

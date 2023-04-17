@@ -50,6 +50,7 @@ class UserTune(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tune = models.ForeignKey(Tune, on_delete=models.CASCADE)
     notes = models.TextField(max_length=400,null=True,blank=True)
+    lyrics = models.TextField(max_length=10000, null=True, blank=True)
     playonpiano = models.BooleanField(default=False)
     playonjamsession = models.BooleanField(default=False)
     playonstage = models.BooleanField(default=False)
@@ -68,3 +69,19 @@ class UserTune(models.Model):
     def filename(self):
         return os.path.basename(self.sheet.name)
 
+
+class UserTuneList(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    description = models.CharField(max_length=200, null=True, blank=True)
+    tunes = models.ManyToManyField(UserTune)
+    created = models.DateField(auto_now_add=True)
+    updated = models.DateField(auto_now=True)
+    public = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+    
