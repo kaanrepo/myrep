@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import UserCreationForm
+from .forms import UserCreationForm, UserUpdateForm
 from django.contrib.auth import get_user_model, login, authenticate, logout
 from tunes.models import UserTune, UserTuneList
 # Create your views here.
@@ -59,7 +59,7 @@ def user_profile_view(request, pk):
 def user_profile_update_view(request, pk):
     User = get_user_model()
     user = User.objects.get(id=pk)
-    form = UserCreationForm(request.POST or None, instance=user)
+    form = UserUpdateForm(request.POST or None, instance=user)
     if form.is_valid():
         form.save()
         return redirect('profile-view', user.id)

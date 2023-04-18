@@ -54,3 +54,8 @@ class UserCreationForm(forms.ModelForm):
         if  password1 != password2:
             raise ValidationError("Passwords don't match.")
         return password2
+    
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username',)
