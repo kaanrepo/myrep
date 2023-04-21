@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', home_view, name='home-view'),
     path('tunes/library', public_usertune_view, name='public-usertune-view'),
-    path('hx/', public_usertune_view, name='public-usertune-hx-view'),
+    path('tunes/hx/', public_usertune_view, name='public-usertune-hx-view'),
     path('hx/tunes/<int:pk>/', usertune_list_hx_view, name='hx-tunes-list-view'),
     path('tunes/<int:pk>/', usertune_list_view, name='tunes-list-view'),
     path('tunes/<int:pk>/<int:id>/', usertune_detail_view, name='tunes-detail-view'),

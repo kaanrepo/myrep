@@ -24,13 +24,14 @@
     
     {% endblock home-content %}
 
-    <div style="padding-top: 0px;margin-top: 10px;margin-bottom: 50px;">
+
+    <div id='page-container' style="padding-top: 0px;margin-top: 10px;margin-bottom: 50px;" >
         <div class="container" style="padding-top: 0px;margin-top: 30px;">
             <div class="row">
-                <div class="col-md-3 col-xl-2">
+                <div  class="col-md-3 col-xl-2">
                     {% include 'main/search_form.html' %}
                 </div>
-                <div class="col-md-6 col-xl-8">
+                <div id='content-wrap' class="col-md-6 col-xl-8">
                     {% block content %}
                     
                     {% endblock content %}
@@ -46,10 +47,30 @@
 </body>
 
 
-<footer>
+
+
+<footer style='margin-bottom:0px'>
     {% include 'main/footer.html' %}
 </footer>
 
+
+<style>
+
+   #page-container {
+    position: relative;
+    min-height: 50vh;
+  }
+  
+  #content-wrap {
+    padding-bottom: 10rem;    /* Footer height */
+  }
+  
+  #footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;            /* Footer height */
+  }
+</style>
 </html>
 
 

@@ -5,8 +5,8 @@ from .models import *
 from .forms import UserTuneForm, TuneForm, UserTuneSearchForm, HomeSearchForm, UserTuneListForm
 from django.contrib.staticfiles import finders
 from django.http import FileResponse, HttpResponse
-from django.core.paginator import Paginator
-
+from django.core.paginator import Paginator, EmptyPage
+import urllib.parse
 
 # Create your views here.
 
@@ -19,7 +19,7 @@ def home_view(request):
 def public_usertune_view(request):
     form = HomeSearchForm()
     query = request.GET.get('q')
-    qs = UserTune.objects.all().filter(public=True)
+    qs = UserTune.objects.all().filter(public=True).order_by('-updated')
     if query is not None:
         qs = UserTune.objects.search(query=query).filter(public=True)
     context = {
@@ -27,7 +27,6 @@ def public_usertune_view(request):
         'search_form' : form,
         'hx_url': 'hx/'
     }
-    print(request.GET)
     if request.htmx:
         return render(request, 'partials/public_usertune.html', context)
     return render(request, 'pages/public_usertune.html', context)
@@ -44,30 +43,49 @@ def usertune_list_view(request, pk):
     stage = request.GET.get('playonstage')
     sheet = request.GET.get('havesheet') 
 
-    qs = UserTune.objects.all().filter(user=user)
+    qs = UserTune.objects.all().filter(user=user).order_by('-updated')
+
+    hx_url = f'/hx/tunes/{pk}/?'
+
+
     if query is not None:
         qs = UserTune.objects.search(query=query).filter(user=user)
 
     if piano == 'on':
         qs = qs.filter(playonpiano=True)
-    
+        hx_url += 'playonpiano=on&'
+
     if jam == 'on':
         qs = qs.filter(playonjamsession=True)
+        hx_url += 'playonjamsession=on&'
     
     if stage == 'on':
         qs = qs.filter(playonstage=True)
+        hx_url += 'playonstage=on&'
     
     if sheet == 'on':
         qs = qs.filter(havesheet=True)
+        hx_url += 'havesheet=on&'
+
+    if hx_url.endswith('&'):
+        hx_url = hx_url[:-1]
 
     search_form = UserTuneSearchForm()
 
+    paginator = Paginator(qs, 10)
+    page_number = request.GET.get('page')
+
+    try:
+        page_obj = paginator.get_page(page_number)
+        print(page_number)
+    except EmptyPage:
+        page_obj = paginator.get_page(1)
 
 
-    hx_url = f'/hx/tunes/{pk}'
 
     context = {
-        'qs' : qs,
+        'paginator': paginator,
+        'page_obj' : page_obj,
         'search_form' : search_form,
         'hx_url': hx_url,
     }
@@ -78,17 +96,18 @@ def usertune_list_view(request, pk):
 
 @login_required
 def usertune_list_hx_view(request, pk):
-    pass
     User = get_user_model()
     user = User.objects.get(id=pk)
     query = request.GET.get('q')
-    qs = UserTune.objects.all().filter(user=user)
+    qs = UserTune.objects.all().filter(user=user).order_by('-updated')
 
     piano = request.GET.get('playonpiano')
     jam = request.GET.get('playonjamsession')
     stage = request.GET.get('playonstage')
     sheet = request.GET.get('havesheet') 
+    
 
+    hx_url = f'/hx/tunes/{pk}/?'
 
 
     if query is not None:
@@ -96,20 +115,38 @@ def usertune_list_hx_view(request, pk):
 
     if piano == 'on':
         qs = qs.filter(playonpiano=True)
-    
+        hx_url += 'playonpiano=on&'
+
     if jam == 'on':
         qs = qs.filter(playonjamsession=True)
+        hx_url += 'playonjamsession=on&'
     
     if stage == 'on':
         qs = qs.filter(playonstage=True)
+        hx_url += 'playonstage=on&'
     
     if sheet == 'on':
         qs = qs.filter(havesheet=True)
+        hx_url += 'havesheet=on&'
 
+    if hx_url.endswith('&'):
+        hx_url = hx_url[:-1]
+    
     search_form = UserTuneSearchForm()
+
+    paginator = Paginator(qs, 10)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.get_page(page_number)
+        print(page_number)
+    except EmptyPage:
+        page_obj = paginator.get_page(1)
+
     context = {
-        'qs' : qs,
-        'search_form' : search_form
+        'paginator': paginator,
+        'page_obj' : page_obj,
+        'search_form' : search_form,
+        'hx_url': hx_url,
     }
     if user != request.user:
         return redirect('home-view')
@@ -192,7 +229,7 @@ def usertune_pdf_view(request, pk, id):
 def usertune_lists_view(request, pk):
     User = get_user_model()
     user = User.objects.get(id=pk)
-    lists = UserTuneList.objects.filter(user=user)
+    lists = UserTuneList.objects.filter(user=user).order_by('-updated')
 
     context = {
         'lists' : lists
@@ -202,7 +239,6 @@ def usertune_lists_view(request, pk):
 
 @login_required
 def usertune_lists_detail_view(request, pk, id):
-    User = get_user_model()
     list = UserTuneList.objects.get(id=id)
 
     context = {
