@@ -1,42 +1,22 @@
-{% extends "main/main.html" %}
-
-{% load static %}
-
-{% block title %}
-Lists
-{% endblock title %}
-
-
-{% block left-content %}
-
-{% include 'main/search_form.html' %}
-
-{% endblock left-content %}
-
-{% block content %}
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta&amp;display=swap">
 </head>
 <body>
-
-    <h1 style="font-weight: bold; text-align:center;">Lists</h1>
-
     <div class="container" id='search-results'><table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>Name</th>
+                <th>List</th>
                 <th>Date</th>
-                <th>Date</th>
+                <th>User</th>
             </tr>
         </thead>
         <div>
             <tbody>
                 {% for list in page_obj %}
                 
-                    <tr>{{list__tunes}}
+                    <tr>
                         <td><p><a href={% url 'usertune-lists-detail-view' request.user.id list.id %}> {{list.name|title}}</a></p></td>
                         <td><p>{{list.updated}}</a></p></td>
                         <td><p>{{list.user}}</a></p></td>
@@ -49,26 +29,3 @@ Lists
     </table>
         {% include 'main/pagination.html' %}
     </div>
-
-
-<style>
-    .line{
-        text-decoration:none;
-        color: inherit;
-    }
-    .text-start{
-        text-decoration:none;
-        color: inherit;
-    }
-</style>
-
-
-
-
-
-{% endblock content %}
-
-{% block right-content %}
-
-<div><a class="btn btn-primary btn-sm" href={% url 'list-create-view' %} role="button" style="margin-right: 3px;margin-left: 0px;">Add a List</a></div>
-{% endblock right-content %}

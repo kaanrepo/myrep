@@ -11,6 +11,7 @@ urlpatterns = [
     path('tunes/<int:pk>/', usertune_list_view, name='tunes-list-view'),
     path('tunes/<int:pk>/<int:id>/', usertune_detail_view, name='tunes-detail-view'),
     path('tunes/list/<int:pk>/', usertune_lists_view, name='usertune-lists-view'),
+    path('tunes/hx/list/<int:pk>/', usertune_lists_view, name='usertune-lists-hx-view'),
     path('tunes/list/<int:pk>/<int:id>/', usertune_lists_detail_view, name='usertune-lists-detail-view'),
     path('tunes/list/create/',usertune_list_create_view, name='list-create-view'),
     path('tunes/list/<int:pk>/<int:id>/update/',usertune_list_update_view, name='list-update-view'),

@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from .models import User
-
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
 
 
 class UserAdminCreationForm(forms.ModelForm):
@@ -59,3 +60,10 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('username', css_class='custom-font')
+        )

@@ -23,13 +23,13 @@
         <nav class="text-center">
             <ul class="pagination">
             {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" aria-label="Previous" href="#" hx-target='#search-results' hx-get="{{hx_url}}&page={{ page_obj.previous_page_number }}"><span aria-hidden="true">«</span></a></li>
+                <li class="page-item"><a class="page-link" aria-label="Previous" href="#" hx-target='#search-results' hx-get="{{hx_url}}{{ page_obj.previous_page_number }}"><span aria-hidden="true">«</span></a></li>
             {% endif %}
             {% if page_obj %}
                 <li class="page-item"><a class="page-link" >{{ page_obj.number }}</a></li>
             {% endif %}
             {% if page_obj.has_next and page_obj.next_page_number <= paginator.num_pages %}
-                <li class="page-item"><a class="page-link" aria-label="Next" href="#" hx-target='#search-results' hx-get="{{hx_url}}&page={{ page_obj.next_page_number }}"><span aria-hidden="true">»</span></a></li>
+                <li class="page-item"><a class="page-link" aria-label="Next" href="#" hx-target='#search-results' hx-get="{{hx_url}}{{ page_obj.next_page_number }}"><span aria-hidden="true">»</span></a></li>
             {% endif %}            </ul>
         </nav>
     </div>

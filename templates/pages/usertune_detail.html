@@ -24,10 +24,7 @@
                     <h1>{{usertune.tune.name|title}}</h1>
                     <p class="text-end">{{usertune.tune.key}} - {{usertune.tune.composer}} </p>
                 </div>
-                {% if request.user == usertune.user %}
-                <div><a class="btn btn-primary btn-sm" href={% url 'tunes-update-view' request.user.id usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Edit</a></div>
-                <div><a class="btn btn-primary btn-sm" href={% url 'delete-objects-view' 'usertune' usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Delete</a></div>
-                {% endif %}
+
             </div>
         </div>
         <div class="row">
@@ -90,3 +87,12 @@
 </html>
 
 {% endblock content %}
+
+{% block right-content %}
+{% if request.user == usertune.user %}
+<div><a class="btn btn-primary btn-sm" href={% url 'tunes-update-view' request.user.id usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Edit</a></div>
+<br>
+<div><a class="btn btn-primary btn-sm" href={% url 'delete-objects-view' 'usertune' usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Delete</a></div>
+{% endif %}
+
+{% endblock right-content %}

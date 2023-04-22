@@ -33,10 +33,7 @@ List
                             <p>{{list.description}}</p>
                         </div>
                         <div class="col-md-4">
-                            {% if list.user == request.user %}
-                            <a class="btn btn-primary btn-sm" href={% url 'list-update-view' request.user.id list.id %} role="button" style="margin-right: 3px;margin-left: 50px;">Edit</a>
-                            <a class="btn btn-primary btn-sm" href={% url 'delete-objects-view' 'list' list.id %} role="button" style="margin-right: 3px;margin-left: 10px;">Delete</a>                            
-                            {% endif %}
+
                         </div>
                     </div>
                 </div>
@@ -73,3 +70,11 @@ List
 
 
 {% endblock content %}
+
+{% block right-content %}
+{% if list.user == request.user %}
+<a class="btn btn-primary btn-sm" href={% url 'list-update-view' request.user.id list.id %} role="button" style="margin-right: 3px;margin-left: 50px;">Edit</a>
+<a class="btn btn-primary btn-sm" href={% url 'delete-objects-view' 'list' list.id %} role="button" style="margin-right: 3px;margin-left: 10px;">Delete</a>                            
+{% endif %}
+
+{% endblock right-content %}

@@ -3,19 +3,14 @@
 {% block title %} Home {% endblock title %}
 
 
-{% block home-content %}
-<div class="container" >
-    <div class="row" style='text-align:center'>
-        <div class="col">
-            <h1 style="font-weight: bold;">MyRep</h1>
-            <p style="font-weight: bold;">Store all your sheets in one place and take them anywhere.</p>
-        </div>
-    </div>
-</div>
-{% endblock home-content %}
+{% block left-content %}
+    {% include 'main/search_form.html' %}
+{% endblock left-content %}
 
 
 {% block content %}
+
+<h1 style="font-weight: bold; text-align:center;">Library</h1>
 
 <div class="container" id='search-results'><table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>

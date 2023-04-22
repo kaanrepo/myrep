@@ -4,17 +4,35 @@
 
 {% block content %}
 
-{{user}}
-
-{% if request.user == user %}
-<a class="btn btn-primary btn-sm" href={% url 'profile-update-view' user.id %} role="button" style="margin-right: 3px;margin-left: 50px;">Edit</a>
-{% endif %}
-
-<br>
-Total Tunes: {{qs.count}}
-<br>
-Total Lists: {{qs2.count}}
-
-
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 style="text-align: center;">{{user.username}}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p style>Total Tunes: {{qs.count}}</p>
+            </div>
+            <div class="col">
+                <p>Total Lists: {{qs2.count}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Joined: {{user.created}}</p>
+            </div>
+            <div class="col">
+                <p></p>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
+
+{% block right-content %}
+
+    {% if request.user == user %}  
+        <a class="btn btn-primary btn-sm" href={% url 'profile-update-view' user.id %} role="button" style="margin-right: 3px;margin-left: 50px;">Edit</a>
+    {% endif %}
+{% endblock right-content %}

@@ -21,7 +21,12 @@ class Genre(models.Model):
         return self.name
     
 
-    
+class UserTuneListManager(models.Manager):
+    def search(self, query):
+        lookups = Q(name__icontains=query) | Q(user__username__icontains=query)
+        return UserTuneList.objects.filter(lookups)
+
+
 class UserTuneManager(models.Manager):
     def search(self, query):
         lookups = Q(tune__name__icontains=query) | Q(user__username__icontains=query) | Q(tune__key__icontains=query) | Q(tune__composer__icontains=query) | Q(tune__genre__icontains=query)
@@ -79,8 +84,10 @@ class UserTuneList(models.Model):
     updated = models.DateField(auto_now=True)
     public = models.BooleanField(default=False)
 
+    objects = UserTuneListManager()
+
     class Meta:
-        ordering = ["name"]
+        ordering = ["updated"]
 
     def __str__(self):
         return self.name

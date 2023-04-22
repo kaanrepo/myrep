@@ -67,17 +67,15 @@ def usertune_list_view(request, pk):
         qs = qs.filter(havesheet=True)
         hx_url += 'havesheet=on&'
 
-    if hx_url.endswith('&'):
-        hx_url = hx_url[:-1]
+    hx_url += 'page='
 
     search_form = UserTuneSearchForm()
 
-    paginator = Paginator(qs, 10)
+    paginator = Paginator(qs, 7)
     page_number = request.GET.get('page')
 
     try:
         page_obj = paginator.get_page(page_number)
-        print(page_number)
     except EmptyPage:
         page_obj = paginator.get_page(1)
 
@@ -112,6 +110,7 @@ def usertune_list_hx_view(request, pk):
 
     if query is not None:
         qs = UserTune.objects.search(query=query).filter(user=user)
+        hx_url += f'q={query}&'
 
     if piano == 'on':
         qs = qs.filter(playonpiano=True)
@@ -129,16 +128,14 @@ def usertune_list_hx_view(request, pk):
         qs = qs.filter(havesheet=True)
         hx_url += 'havesheet=on&'
 
-    if hx_url.endswith('&'):
-        hx_url = hx_url[:-1]
-    
+    hx_url += 'page='
+
     search_form = UserTuneSearchForm()
 
-    paginator = Paginator(qs, 10)
+    paginator = Paginator(qs, 7)
     page_number = request.GET.get('page')
     try:
         page_obj = paginator.get_page(page_number)
-        print(page_number)
     except EmptyPage:
         page_obj = paginator.get_page(1)
 
@@ -230,11 +227,36 @@ def usertune_lists_view(request, pk):
     User = get_user_model()
     user = User.objects.get(id=pk)
     lists = UserTuneList.objects.filter(user=user).order_by('-updated')
+    form = HomeSearchForm()
+    query = request.GET.get('q')
+    hx_url = f'/tunes/hx/list/{pk}/?'
+    
+    if query is not None:
+        lists = UserTuneList.objects.search(query=query).filter(user=user).order_by('-updated')
+        hx_url += f'q={query}&'
 
+
+    paginator = Paginator(lists, 2)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.get_page(page_number)
+    except EmptyPage:
+        page_obj = paginator.get_page(1)
+
+    hx_url += 'page='
+
+    
     context = {
-        'lists' : lists
+        'lists' : lists,
+        'page_obj': page_obj,
+        'paginator':paginator,
+        'hx_url' : hx_url,
+        'search_form': form
     }
 
+    if request.htmx:
+        return render(request, 'partials/usertune_lists.html', context)
+    
     return render(request, 'pages/usertune_lists.html', context)
 
 @login_required
@@ -289,7 +311,6 @@ def delete_objects_view(request, model, **kwargs):
     model_class = MODELS.get(model)
     if model_class is None:
         pass
-    print(model_class)
     obj = get_object_or_404(model_class, **kwargs)
 
     if request.method == 'POST':

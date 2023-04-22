@@ -20,16 +20,19 @@
 <body style="font-family: Allerta, sans-serif;">
     <header></header>
 
-    {% block home-content %}
-    
-    {% endblock home-content %}
+
 
 
     <div id='page-container' style="padding-top: 0px;margin-top: 10px;margin-bottom: 50px;" >
         <div class="container" style="padding-top: 0px;margin-top: 30px;">
             <div class="row">
                 <div  class="col-md-3 col-xl-2">
-                    {% include 'main/search_form.html' %}
+                    <div  style='margin-top:30%'>
+                    {% block left-content %}
+    
+                    {% endblock left-content %}
+                    </div>
+
                 </div>
                 <div id='content-wrap' class="col-md-6 col-xl-8">
                     {% block content %}
@@ -37,7 +40,11 @@
                     {% endblock content %}
                 </div>
                 <div class="col-md-3 col-xl-2">
+                   <div  style='margin-top:30%'>
+                    {% block right-content %}
                     
+                    {% endblock right-content %}
+                    </div> 
                 </div>
             </div>
         </div>
