@@ -101,7 +101,8 @@ class UserTuneListForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['tunes'].queryset = UserTune.objects.filter(Q(user=user) | Q(public=True))
+        self.fields['tunes'].queryset = UserTune.objects.filter(Q(user=user) | Q(public=True)).order_by('-updated')
+        self.fields['tunes'].widget.attrs.update({'style': 'padding-bottom:35vh', 'rows': '10'})
 
         #crispy-form helper
         self.helper = FormHelper()

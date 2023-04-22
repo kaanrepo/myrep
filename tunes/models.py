@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from myrep import settings
-from .validators import validate_file_extension
+from .validators import validate_file_extension, validate_file_size
 import os
 # Create your models here.
 
@@ -60,7 +60,7 @@ class UserTune(models.Model):
     playonjamsession = models.BooleanField(default=False)
     playonstage = models.BooleanField(default=False)
     havesheet = models.BooleanField(default=False)
-    sheet = models.FileField(upload_to= tunes_user_directory_path , blank=True, null=True, validators=[validate_file_extension])
+    sheet = models.FileField(upload_to= tunes_user_directory_path , blank=True, null=True, validators=[validate_file_extension, validate_file_size])
     updated = models.DateField(auto_now=True)
     created = models.DateField(auto_now_add=True)
     public = models.BooleanField(default=False)

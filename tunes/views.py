@@ -20,12 +20,26 @@ def public_usertune_view(request):
     form = HomeSearchForm()
     query = request.GET.get('q')
     qs = UserTune.objects.all().filter(public=True).order_by('-updated')
+    hx_url = f'/tunes/hx/?'
     if query is not None:
         qs = UserTune.objects.search(query=query).filter(public=True)
+        hx_url += f'q={query}&'
+
+    paginator = Paginator(qs, 3)
+    page_number = request.GET.get('page')
+
+    hx_url += 'page='
+    
+    try:
+        page_obj = paginator.get_page(page_number)
+    except EmptyPage:
+        page_obj = paginator.get_page(1)
     context = {
         'qs' : qs,
         'search_form' : form,
-        'hx_url': 'hx/'
+        'hx_url': hx_url,
+        'page_obj': page_obj,
+        'paginator': paginator,
     }
     if request.htmx:
         return render(request, 'partials/public_usertune.html', context)
@@ -50,6 +64,7 @@ def usertune_list_view(request, pk):
 
     if query is not None:
         qs = UserTune.objects.search(query=query).filter(user=user)
+        hx_url += f'q={query}&'
 
     if piano == 'on':
         qs = qs.filter(playonpiano=True)
@@ -301,7 +316,7 @@ def usertune_list_update_view(request, pk, id):
     return render(request, 'pages/usertune_lists_create_update.html', context)
 
 
-
+@login_required
 def delete_objects_view(request, model, **kwargs):
     MODELS = {
         'tune' : Tune,
@@ -312,6 +327,9 @@ def delete_objects_view(request, model, **kwargs):
     if model_class is None:
         pass
     obj = get_object_or_404(model_class, **kwargs)
+
+    if request.user != obj.user:
+        return redirect('home-view')
 
     if request.method == 'POST':
         obj.delete()

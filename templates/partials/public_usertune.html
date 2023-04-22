@@ -10,7 +10,7 @@
     </thead>
     <div>
         <tbody>
-            {% for usertune in qs %}
+            {% for usertune in page_obj %}
             
             <tr>
                 <td><p><a class='text-start' href={% url 'tunes-detail-view' usertune.user.id usertune.id %}>{{usertune.tune.name|title}}</a></p></td>
@@ -23,6 +23,8 @@
             {% endfor %}
         </tbody>
 
-        {% include 'main/pagination.html' %}
+        
     <div>
-</table></div>
+        
+</table>
+{% include 'main/pagination.html' %}</div>

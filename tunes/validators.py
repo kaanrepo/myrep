@@ -26,3 +26,9 @@ def validate_file_extension(data):
         raise ValidationError('Unsupported file extension.')
     if file_type != 'application/pdf':
         raise ValidationError('DONT TRY TO FOOL ME.')
+
+def validate_file_size(value):
+    filesize = value.size
+    
+    if filesize > 2097152:
+        raise ValidationError("The maximum file size that can be uploaded is 2MB")
