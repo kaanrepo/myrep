@@ -7,6 +7,7 @@ from django.contrib.staticfiles import finders
 from django.http import FileResponse, HttpResponse
 from django.core.paginator import Paginator, EmptyPage
 import urllib.parse
+import tempfile
 
 # Create your views here.
 
@@ -228,14 +229,23 @@ def usertune_pdf_view(request, pk, id):
     user = User.objects.get(id=pk)
     usertune = get_object_or_404(UserTune, id=id, user=user)
     filename = usertune.filename
-    path_to_file = f'staticfiles-cdn/uploads/sheets/{pk}/{filename}'
-    #path_to_file = usertune.sheet.url
+    url = f'https://bucket-myrep.s3.eu-north-1.amazonaws.com/sheets/{pk}/{filename}'
 
-    with open(path_to_file, 'rb') as f:
+    # Download the file to a temporary file on the local system
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    with urllib.request.urlopen(url) as response:
+        temp_file.write(response.read())
+
+    # Open the downloaded file
+    with open(temp_file.name, 'rb') as f:
         response = HttpResponse(f.read(), content_type='application/pdf')
         response['Content-Disposition'] = f'inline;filename={filename}'
-    return response
 
+    # Delete the temporary file
+    temp_file.close()
+    os.unlink(temp_file.name)
+
+    return response
 
 @login_required
 def usertune_lists_view(request, pk):
