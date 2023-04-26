@@ -219,10 +219,31 @@ def tune_update_view(request, pk, id):
         child.tune = parent
         child.save()
         return redirect('tunes-detail-view', pk=request.user.id , id=child.id)
-    else:
-        print('else')
 
     return render(request, 'pages/tune_create_update.html', context)
+
+@login_required
+def copy_tune_view(request, pk):
+    tune = get_object_or_404(Tune, id=pk)
+    form1 = TuneForm(request.POST or None, instance=tune)
+    form2 = UserTuneForm(request.POST or None, request.FILES or None)
+    context = {
+        'form1' : form1,
+        'form2' : form2
+    }
+    if all([form1.is_valid(), form2.is_valid()]):
+        parent = form1.save(commit=False)
+        parent.save()
+        child = form2.save(commit=False)
+        child.user = request.user
+        child.tune = parent
+        child.save()
+        return redirect('tunes-detail-view', pk=request.user.id , id=child.id)
+
+    return render(request, 'pages/tune_create_update.html', context)
+
+
+
 
 def usertune_pdf_view(request, pk, id):
     User = get_user_model()

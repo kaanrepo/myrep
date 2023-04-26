@@ -93,6 +93,10 @@
 <div><a class="btn btn-primary btn-sm" href={% url 'tunes-update-view' request.user.id usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Edit</a></div>
 <br>
 <div><a class="btn btn-primary btn-sm" href={% url 'delete-objects-view' 'usertune' usertune.id %} role="button" style="margin-right: 3px;margin-left: 59px;">Delete</a></div>
+{% else %}
+<div><a class="btn btn-primary btn-sm" href={% url 'tunes-copy-view' usertune.tune.id  %} role="button" style="margin-right: 3px;margin-left: 59px;">Add tune</a></div>
+
+
 {% endif %}
 
 {% endblock right-content %}
