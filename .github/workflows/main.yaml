@@ -30,3 +30,9 @@ jobs:
       - name: Run Tests
         run: |
           python manage.py test
+      - name: Push main into another branch
+        uses: codingforentrepreneurs/action-branch-to-branch@main
+        with: 
+          dest_branch: production-3
+          source_branch: main
+          commit_message: 'This is a message'
