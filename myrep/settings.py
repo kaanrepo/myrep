@@ -20,13 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-yice%$498e^57!q9ya5=p_i-$7f6)bnvkqlws!l@ky!%h4(der'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.16','192.168.0.213','kaanrepo.pythonanywhere.com']
+
 
 
 # Application definition
@@ -43,10 +43,13 @@ INSTALLED_APPS = [
     #######
     'crispy_forms',
     "crispy_bootstrap5",
-    'django_htmx'
+    'django_htmx',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,8 +57,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_htmx.middleware.HtmxMiddleware'
+    'django_htmx.middleware.HtmxMiddleware',
+
 ]
+
+CORS_ALLOWED_ORIGINS = ['https://127.0.0.1','https://kaanrepo.pythonanywhere.com']
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = False
 
 ROOT_URLCONF = 'myrep.urls'
 
