@@ -36,3 +36,5 @@ jobs:
           dest_branch: production-3
           source_branch: main
           commit_message: 'This is a message'
+        env: 
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
